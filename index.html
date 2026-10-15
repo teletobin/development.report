@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>차팅 서포트 사이트 기획 개발 리포트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #F7F7F7;
+  --border: #E7E7E7;
+  --ink: #1A1A1A;
+  --ink-soft: #6E6E6E;
+  --ink-faint: #A2A2A2;
+  --charcoal: #3F3F3F;
+  --charcoal-dark: #262626;
+  --red: #C0392B;
+  --red-tint: #FBEAE8;
+  --red-dark: #9B2F24;
+  --radius: 12px;
+  --max: 640px;
+  --nav-h: 96px;
+}
+
+*{box-sizing:border-box;}
+html{ scroll-behavior: smooth; }
+html,body{margin:0;padding:0;}
+body{
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  padding-bottom: 56px;
+}
+
+/* ---------- Header ---------- */
+.header{
+  padding: 22px 20px 20px;
+  border-bottom: 1px solid var(--border);
+  max-width: var(--max);
+}
+.header-eyebrow{
+  font-size: 12px;
+  color: var(--red);
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+.header h1{
+  font-size: 20px;
+  line-height: 1.4;
+  margin: 0 0 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.title-badge{
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red-dark);
+  background: var(--red-tint);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.hero-link-btn{
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: var(--red);
+  color: #fff;
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+.header p{
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.65;
+}
+.byline{
+  display:flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.byline .hero-link-btn{ margin-left: auto; }
+.byline .b-item{ font-size: 12px; color: var(--ink-soft); }
+.byline .b-item strong{ color: var(--ink); font-weight:700; margin-left: 2px; }
+
+/* ---------- Key highlights (개조식) ---------- */
+.highlights{
+  padding: 20px 16px 22px;
+  border-bottom: 1px solid var(--border);
+  background: #FAF6EF;
+  max-width: var(--max);
+}
+.highlights-title{
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.hl-list{ display:flex; flex-direction:column; gap:0; }
+.hl-item{
+  display:flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #ECE2CF;
+}
+.hl-item:last-child{ border-bottom:none; }
+.hl-item .hl-num{
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--red);
+  padding-top: 2px;
+}
+.hl-item .hl-body{ flex:1; min-width:0; }
+.hl-item .hl-key{
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.hl-item .hl-key .tag-mini{
+  display:inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--red);
+  padding: 1px 7px;
+  border-radius: 5px;
+  margin-right: 7px;
+  vertical-align: 1px;
+}
+.hl-item .hl-sub{
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 3px;
+  line-height: 1.55;
+}
+
+/* ---------- Sticky nav ---------- */
+.tabbar-wrap{
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.site-link{
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 4px 0 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.site-link .sl-arrow{ font-size: 12px; color: var(--ink-faint); }
+.tabbar{
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 14px;
+  scrollbar-width: none;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.tabbar::-webkit-scrollbar{ display:none; }
+.tab-btn{
+  flex: 0 0 auto;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 13px 12px 11px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tab-btn.active{
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom-color: var(--ink);
+}
+
+/* ---------- Layout ---------- */
+.wrap{
+  max-width: var(--max);
+}
+.section{ padding: 26px 16px 8px; scroll-margin-top: calc(var(--nav-h) - 44px); border-bottom: 1px solid var(--border); }
+.section:last-child{ border-bottom: none; }
+
+.section-head{ margin-bottom: 14px; }
+.section-title-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap: wrap;
+}
+.section-title{
+  font-size: 16.5px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.badge{
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink-soft);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.badge.red{ background: var(--red-tint); color: var(--red-dark); border-color: transparent; }
+.section-desc{
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 6px 0 0;
+  line-height: 1.65;
+}
+
+/* numbered feature item */
+.item-list{ display:flex; flex-direction:column; gap:8px; }
+.item{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 14px;
+  display:flex;
+  gap: 11px;
+}
+.item .num-chip{
+  flex: 0 0 auto;
+  min-width: 24px; height: 24px;
+  padding: 0 6px;
+  border-radius: 7px;
+  background: var(--charcoal);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display:flex; align-items:center; justify-content:center;
+  margin-top: 1px;
+  white-space: nowrap;
+}
+.item .item-title{
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 3px;
+  color: var(--ink);
+}
+.item .item-desc{
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.6;
+}
+.item.compact{ padding: 11px 13px; }
+
+/* request summary */
+.request-summary{
+  display:flex;
+  justify-content: space-between;
+  align-items:center;
+  background: var(--red-tint);
+  border: 2.5px solid var(--red);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.request-summary .big{
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--red);
+}
+.request-summary .cap{
+  font-size: 12px;
+  color: var(--ink-soft);
+  text-align: right;
+}
+.request-summary .cap strong{ color: var(--red); font-size:15px; }
+
+/* improvement rows */
+.impr-card{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.impr-head{
+  display: grid;
+  grid-template-columns: 22px 40px 1fr 54px;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.impr-head span{
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-faint);
+}
+.impr-head span:last-child{ text-align:right; }
+.impr-list{ display:flex; flex-direction:column; }
+.impr-row{
+  display: grid;
+  grid-template-columns: 22px 40px 1fr auto;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.impr-row:last-child{ border-bottom: none; }
+.impr-row .idx{
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-faint);
+}
+.impr-row .tag{
+  display:inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 0;
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
+}
+.tag.ux{ background:#EFEFEF; color:var(--charcoal); }
+.tag.func{ background:var(--red-tint); color:var(--red-dark); font-weight:700; }
+.impr-row .text{ font-size: 12.5px; color: var(--ink); line-height:1.45; word-break: break-word; }
+.impr-row .date{
+  font-size: 11px;
+  color: var(--ink-faint);
+  text-align: right;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* cost callout */
+.cost-callout{
+  background: var(--red-tint);
+  border: 2.5px solid var(--red);
+  border-radius: var(--radius);
+  padding: 22px 16px;
+  text-align:center;
+  margin-bottom: 14px;
+}
+.cost-callout .cost-num{
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--red);
+  display:block;
+  line-height:1.1;
+}
+.cost-callout .cost-cap{
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.subhead{
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 18px 0 8px;
+  padding-left: 10px;
+  border-left: 3px solid var(--red);
+}
+.subhead:first-child{ margin-top: 4px; }
+
+.beige-block{
+  background: #FAF6EF;
+  border-radius: var(--radius);
+  padding: 12px 12px 4px;
+  margin-bottom: 4px;
+}
+.beige-block .item{ border-color: #ECE2CF; }
+
+.emphasis-block{
+  background: var(--surface-2);
+  border-radius: var(--radius);
+  padding: 16px 15px;
+  margin: 18px 0;
+}
+.emphasis-title{
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+.emphasis-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.emphasis-list li{
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.65;
+  padding-left: 14px;
+  position: relative;
+}
+.emphasis-list li::before{
+  content: '';
+  position: absolute;
+  left: 0; top: 9px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.emphasis-block .compare-card{ background:#fff; }
+.emphasis-block .footnote{ margin-top: 10px; }
+/* impact before/after table */
+.compare-table{
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.ct-row{
+  display: grid;
+  grid-template-columns: 62px 1fr 1fr;
+}
+.ct-row + .ct-row{ border-top: 1px solid var(--border); }
+.ct-cell{
+  padding: 10px 8px;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.ct-cell.label{
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--surface-2);
+  display:flex; align-items:center;
+}
+.ct-cell.before{ color: var(--ink-soft); border-left: 1px solid var(--border); }
+.ct-cell.after{ color: var(--ink); font-weight: 600; background: var(--red-tint); border-left: 1px solid var(--border); }
+.ct-row.ct-head .ct-cell{
+  font-size: 11px;
+  font-weight: 700;
+  padding: 9px 8px;
+}
+.ct-row.ct-head .ct-cell.before{ color: var(--ink-soft); }
+.ct-row.ct-head .ct-cell.after{ color: var(--red-dark); }
+
+/* compare cards */
+.compare-card{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 13px;
+  margin-bottom: 8px;
+}
+.compare-card .row{
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--border);
+}
+.compare-card .row:last-child{ border-bottom:none; }
+.compare-card .row .k{
+  font-size: 11px;
+  color: var(--ink-faint);
+  font-weight: 700;
+}
+.compare-card .row .v{ font-size: 13.5px; color: var(--ink); text-align:left; line-height: 1.5; }
+.compare-card .row.hilite .v{ color: var(--red-dark); font-weight:700; }
+.compare-label{
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--surface-2);
+  display:inline-block;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.compare-label.hi{ background: var(--red); color:#fff; }
+
+.footnote{
+  font-size: 11.5px;
+  color: var(--ink-faint);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* origin story block + link button */
+.origin-block{
+  padding: 14px 15px 15px;
+  margin-top: 12px;
+}
+.origin-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:9px; }
+.origin-list li{
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.55;
+  padding-left: 14px;
+  position: relative;
+}
+.origin-list li::before{
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.origin-list li strong{ font-weight: 700; color: var(--ink); }
+.link-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 0;
+  background: none;
+  color: var(--ink-soft);
+  border-radius: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.link-btn .lb-arrow{ font-size: 12px; font-weight: 500; flex:0 0 auto; text-decoration: none; }
+
+/* summary section */
+.summary-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.summary-list li{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 8px;
+  padding: 12px 13px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.closing{
+  margin-top: 16px;
+  text-align:center;
+  padding: 16px;
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.closing .hi{ color: var(--red); font-weight:700; }
+
+@media (min-width:480px){
+  .item-list.grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>자동차팅 서포트 사이트 <span class="title-badge">기획 개발 리포트</span></h1>
+  <p>블리비 홈페이지와 자동 연동 로직을 활용한 차팅 서포트 사이트</p>
+  <div class="byline">
+    <span class="b-item">작성자<strong>홍대점 가은빈</strong></span>
+    <span class="b-item">최초 작성일 26.09.15 / 업데이트<strong>26.10.04</strong></span>
+    <a class="hero-link-btn" href="https://autochart-two.vercel.app/" target="_blank" rel="noopener noreferrer">차팅 서포트 바로가기</a>
+  </div>
+</div>
+
+<div class="highlights">
+  <p class="highlights-title">핵심 요약</p>
+  <div class="hl-list">
+    <div class="hl-item">
+      <span class="hl-num">01</span>
+      <div class="hl-body">
+        <div class="hl-key"><span class="tag-mini red">자동차팅</span>블리비 홈페이지 정보 자동 연동</div>
+        <p class="hl-sub">홈페이지 시술·가격 실시간 연동으로 수기 차팅 번거로움 해결<br>지점별 정리규칙·별칭매칭·회원권/양도 계산까지 갖춘 완성형 사이트</p>
+      </div>
+    </div>
+    <div class="hl-item">
+      <span class="hl-num">02</span>
+      <div class="hl-body">
+        <div class="hl-key"><span class="tag-mini red">즉시 적용</span>전국 58개 지점 바로 활용 가능</div>
+        <p class="hl-sub">매일 오전 9시 홈페이지와 자동 연동, 실시간 업데이트 버튼<br>신규 지점도 바로 반영 가능</p>
+      </div>
+    </div>
+    <div class="hl-item">
+      <span class="hl-num">03</span>
+      <div class="hl-body">
+        <div class="hl-key"><span class="tag-mini">생산성</span>계산·차팅 실수 최소화</div>
+        <p class="hl-sub">정확도 ↑ 생산성 ↑ 편의성 ↑ 효율성 ↑<br>자동 계산과 검증으로 업무 오류 방지</p>
+      </div>
+    </div>
+    <div class="hl-item">
+      <span class="hl-num">04</span>
+      <div class="hl-body">
+        <div class="hl-key"><span class="tag-mini">신뢰성</span>본사 요청 100% 반영 + 실측 검증</div>
+        <p class="hl-sub">요청 8건 모두 구현·배포 완료<br>무료 한도 안에서 안정적 작동 확인</p>
+      </div>
+    </div>
+    <div class="hl-item">
+      <span class="hl-num">05</span>
+      <div class="hl-body">
+        <div class="hl-key"><span class="tag-mini red">비용 효율</span>테스트 0원 / 정식 월 ₩33,000</div>
+        <p class="hl-sub">DB 비용만 필요 (API·AI 사용료 없음)<br>외주 개발 800만원 초기비용 대비 압도적 비용 절감</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tabbar-wrap">
+  <div class="tabbar" id="tabbar">
+    <button class="tab-btn active" data-target="t1">핵심 기능</button>
+    <button class="tab-btn" data-target="t2">본사 요청</button>
+    <button class="tab-btn" data-target="t3">자체 개선</button>
+    <button class="tab-btn" data-target="t4">운영 비용</button>
+    <button class="tab-btn" data-target="t5">기대 효과</button>
+    <button class="tab-btn" data-target="t6">요약</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- 1. 기초기능 -->
+  <section class="section" id="t1">
+    <div class="section-head">
+      <div class="section-title-row">
+        <h2 class="section-title">사이트 핵심 기능</h2>
+        <span class="badge">자체 기획·구축</span>
+      </div>
+      <div class="origin-block">
+        <ul class="origin-list">
+          <li><strong>1단계</strong> — 전지점 시술 금액을 연동해 시술별 금액을 검색하는 사이트를 먼저 개발</li>
+          <li><strong>2단계</strong> — 해당 연동 로직을 그대로 살려 자동차팅 서포트 사이트로 확장 자체 기획·구축 (최초 배포일 26.09.02)</li>
+        </ul>
+        <a class="link-btn" href="https://teletobin.github.io/velyb_price/" target="_blank" rel="noopener noreferrer">참고 · 시술금액 검색 사이트<span class="lb-arrow">↗</span></a>
+      </div>
+    </div>
+    <div class="item-list grid2">
+      <div class="item"><div class="num-chip">1</div><div><p class="item-title">블리비 홈페이지 수가 자동 연동</p><p class="item-desc">홈페이지 지점별 시술 가격이 연동되어 최신 수가 자동 유지</p></div></div>
+      <div class="item"><div class="num-chip">2</div><div><p class="item-title">직관적인 UI UX</p><p class="item-desc">누구나 교육없이도 사용하기 쉬운 UI UX로 편리한 사용 가능</p></div></div>
+      <div class="item"><div class="num-chip">3</div><div><p class="item-title">시술명 자동완성 검색</p><p class="item-desc">두 글자만 입력 후 방향키+Enter로 바로 시술 추가, 영타로도 검색 가능</p></div></div>
+      <div class="item"><div class="num-chip">4</div><div><p class="item-title">축약어·오타·별칭 키워드 매칭</p><p class="item-desc">"스보"→"스킨보톡스", "울쎼라"→"울쎄라", "아그네스"→"아크네 포텐자" 와 같이 현장에서 쓰는 약어·오타, 시술 별칭도 검색어 매칭 가능</p></div></div>
+      <div class="item"><div class="num-chip">5</div><div><p class="item-title">시술명 정리 기능</p><p class="item-desc">시술 원문의 불필요한 괄호·설명 문구를 자동으로 정리</p></div></div>
+      <div class="item"><div class="num-chip">6</div><div><p class="item-title">미등재 시술 직접 추가</p><p class="item-desc">홈페이지에 없는 지점별 시술은 지점별로 직접 데이터베이스 작성 및 차팅 시 직접 입력 가능</p></div></div>
+      <div class="item"><div class="num-chip">7</div><div><p class="item-title">부스터 시술 조합 계산기능</p><p class="item-desc">부스터명+용량 입력 시 시술별 조합을 자동 계산해 선택할 수 있는 기능 구현</p></div></div>
+      <div class="item"><div class="num-chip">8</div><div><p class="item-title">동반 상담 시 양도금액 자동계산</p><p class="item-desc">회원권 사용 시 금액 계산 및 양도 금액까지 반영해 최종 잔액 자동 산출</p></div></div>
+      <div class="item"><div class="num-chip">9</div><div><p class="item-title">회원권 정보 자동 생성 및 계산</p><p class="item-desc">VIP/쁘띠 금액·담당자·날짜를 병원 표기 규격에 맞춰 자동 조합</p></div></div>
+      <div class="item"><div class="num-chip">10</div><div><p class="item-title">최종 차트 편집 기능</p><p class="item-desc">고객 요청 사항, 부위, 용량 등 추가 메모 입력해 CRM에 붙여넣을 최종차트 편집 가능</p></div></div>
+    </div>
+  </section>
+
+  <!-- 2. 본사 요청 -->
+  <section class="section" id="t2">
+    <div class="section-head">
+      <div class="section-title-row">
+        <h2 class="section-title">본사 요청사항</h2>
+        <span class="badge">2026.09.09</span>
+        <span class="badge">2026.09.15</span>
+      </div>
+      <p class="section-desc">본사로부터 추가 개발을 요청받아 아래 기능을 모두 구현·배포했습니다.</p>
+    </div>
+    <div class="request-summary">
+      <div><span class="big">8건</span></div>
+      <div class="cap">요청 반영률<br><strong>100%</strong></div>
+    </div>
+    <div class="item-list">
+      <div class="item compact"><div class="num-chip">1</div><div><p class="item-title">전지점 수가 데이터 적용</p><p class="item-desc">전국 58개 지점 각각의 실제 가격으로 개별 연동·관리</p></div></div>
+      <div class="item compact"><div class="num-chip">2</div><div><p class="item-title">시술 카테고리 설정</p><p class="item-desc">시술을 자동 분류해 시술 누락 방지 및 시술 FLOW 파악 가능 (필요 시 수동 재분류 가능)</p></div></div>
+      <div class="item compact"><div class="num-chip">3</div><div><p class="item-title">미시술 기능 추가 & 문구 정리</p><p class="item-desc">결제 또는 차감은 이루어졌으나 오늘 사용하지 않은 시술을 "미사용" → "미시술"로 문구 변경해 명확성 개선</p></div></div>
+      <div class="item compact"><div class="num-chip">4</div><div><p class="item-title">미시술 선택 시 시술 횟수 에러 수정</p><p class="item-desc">미시술건으로 체크 시 시술 횟수 사라지는 버그 해결</p></div></div>
+      <div class="item compact"><div class="num-chip">5</div><div><p class="item-title">회원권 금액 선택형 버튼 추가</p><p class="item-desc">회원권 결제 금액은 직접 타이핑 없이 버튼을 선택해 입력하는 방식으로 전환</p></div></div>
+      <div class="item compact"><div class="num-chip">6</div><div><p class="item-title">실장 이름 세션 유지 기능</p><p class="item-desc">실장 이름 한번 입력해두면 계속 유지되도록 반영 (clear 버튼 눌러도 실장이름은 유지, 단 페이지 새로고침시엔 초기화)</p></div></div>
+      <div class="item compact"><div class="num-chip">7</div><div><p class="item-title">양도인 생년월일 텍스트 추가</p><p class="item-desc">양도자 정보 입력 시 생년월일 필드 추가로 동명이인 식별 및 혼동 회피</p></div></div>
+      <div class="item compact"><div class="num-chip">8</div><div><p class="item-title">홈페이지 시술순서대로 후보군 표시</p><p class="item-desc">시술 섹션명을 DB에 추가해 옵션 상품은 후순위로 표시하고, 섹션명 자체인 경우 홈페이지 순서 그대로 나오도록 구현</p></div></div>
+    </div>
+  </section>
+
+  <!-- 3. 자체 개선 16 -->
+  <section class="section" id="t3">
+    <div class="section-head">
+      <div class="section-title-row">
+        <h2 class="section-title">자체 기능 개선 리스트</h2>
+        <span class="badge">실사용 편의성 중심</span>
+      </div>
+      <p class="section-desc">26.09.09 본사 요청 후 실제 사용 기능 및 UI UX를 개선했습니다.</p>
+    </div>
+    <div class="impr-card">
+      <div class="impr-head"><span>#</span><span>구분</span><span>개선 내용</span><span>반영일</span></div>
+      <div class="impr-list">
+        <div class="impr-row"><span class="idx">1</span><span class="tag ux">UX</span><span class="text">"차트 노출 여부"와 "미사용 처리"를 별개 버튼으로 분리</span><span class="date">09.10–11</span></div>
+        <div class="impr-row"><span class="idx">2</span><span class="tag func">기능</span><span class="text">검색 후보 5개→15개, 2글자부터 인식되도록 확장</span><span class="date">09.10–15</span></div>
+        <div class="impr-row"><span class="idx">3</span><span class="tag func">기능</span><span class="text">홈페이지 병렬 스크래핑으로 지점별 데이터 불러오기 속도 개선</span><span class="date">09.11</span></div>
+        <div class="impr-row"><span class="idx">4</span><span class="tag ux">UX</span><span class="text">로고·브랜드 컬러 테마 적용으로 메인/상세설정 화면 디자인 통일</span><span class="date">09.11–13</span></div>
+        <div class="impr-row"><span class="idx">5</span><span class="tag ux">UX</span><span class="text">버튼·토글 크기와 간격을 실사용 기준으로 지속 미세조정</span><span class="date">9.11~9.17</span></div>
+        <div class="impr-row"><span class="idx">6</span><span class="tag ux">UX</span><span class="text">지점 선택을 검색형으로 바꾸고 마지막 선택 지점을 자동 기억</span><span class="date">09.13</span></div>
+        <div class="impr-row"><span class="idx">7</span><span class="tag func">기능</span><span class="text">홈페이지 섹션 기준 카테고리 자동 매핑 정확도 고도화</span><span class="date">09.13</span></div>
+        <div class="impr-row"><span class="idx">8</span><span class="tag ux">UX</span><span class="text">/실사용 피드백 반영해 불필요한 구독시술 날짜 자동표기 제거</span><span class="date">09.13</span></div>
+        <div class="impr-row"><span class="idx">9</span><span class="tag func">기능</span><span class="text">동행인 양도를 1명→최대 5명으로 확장, 각자 독립 팝업 제공</span><span class="date">09.14</span></div>
+        <div class="impr-row"><span class="idx">10</span><span class="tag ux">UX</span><span class="text">지점 변경 시 확인 팝업 + 불러오는 중/완료 표시로 오작동 방지</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">11</span><span class="tag func">기능</span><span class="text">별칭(축약어) 매칭 버그 수정 — 원래 단어도 함께 검색되도록 보완</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">12</span><span class="tag ux">UX</span><span class="text">양도 팝업 "차트 복사 및 확인" 원클릭(복사+닫기 동시 처리)</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">13</span><span class="tag func">기능</span><span class="text">동반 할인(5%/10%) 원클릭 적용, 차트·잔액 자동 반영</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">14</span><span class="tag func">기능</span><span class="text">슬래시(/) 포함 시술명 스크래핑 시 괄호 깨짐 버그 수정</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">15</span><span class="tag ux">UX</span><span class="text">전체 화면 1.1배 확대로 가독성 개선</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">16</span><span class="tag ux">UX</span><span class="text">브라우저 탭에 파비콘 추가 — 다른 사이트 탭과 섞이지 않고 한눈에 식별 가능</span><span class="date">09.15</span></div>
+        <div class="impr-row"><span class="idx">17</span><span class="tag ux">UX</span><span class="text">전지점에 적용되는 상세설정탭에 주의문구 추가</span><span class="date">09.17</span></div>
+        <div class="impr-row"><span class="idx">18</span><span class="tag func">기능</span><span class="text">시술명 N회 처리 개선 - 끝/괄호/뒤 텍스트 포함 분리 및 이동</span><span class="date">09.18</span></div>
+        <div class="impr-row"><span class="idx">19</span><span class="tag func">기능</span><span class="text">상세설정 탭 데이터 최신순 정렬 - 최근 추가된 항목 맨 위</span><span class="date">09.18</span></div>
+        <div class="impr-row"><span class="idx">20</span><span class="tag func">기능</span><span class="text">복합 시술명 동일 회차 통합 - N회가 모두 같으면 맨 뒤로</span><span class="date">09.18</span></div>
+        <div class="impr-row"><span class="idx">21</span><span class="tag ux">UX</span><span class="text">시술검색창 입력 취소 개선 - ESC 키 / 바깥 클릭으로 검색 중단</span><span class="date">09.18</span></div>
+        <div class="impr-row"><span class="idx">22</span><span class="tag ux">UX</span><span class="text">지점명 검색 띄어쓰기 무시 및 영타검색 지원 - 한글/영타 모두 검색 가능</span><span class="date">09.18</span></div>
+        <div class="impr-row"><span class="idx">23</span><span class="tag func">기능</span><span class="text">양도차트 할인적용 기능 추가</span><span class="date">09.19</span></div>
+        <div class="impr-row"><span class="idx">24</span><span class="tag ux">UX</span><span class="text">섹션명 기반 검색 개선 — "내맘" 검색 시 해당 섹션 하위시술 표시</span><span class="date">09.19</span></div>
+        <div class="impr-row"><span class="idx">25</span><span class="tag func">기능</span><span class="text">상세설정탭 각 메뉴별 검색창 개설 (시술명 정리, 검색어 매칭, 지점별 규칙, 지점별 시술 추가)</span><span class="date">09.19</span></div>
+        <div class="impr-row"><span class="idx">26</span><span class="tag func">기능</span><span class="text">차트생성영역에 직접 입력한 텍스트가 시술 추가또는 수량 수정 시에도 초기화되지 않도록 개선</span><span class="date">09.19</span></div>
+        <div class="impr-row"><span class="idx">27</span><span class="tag ux">UX</span><span class="text">시술검색 TIP 위치 개선 — 검색창 오른쪽에 배치, 한 줄 표시, 크기 축소</span><span class="date">09.19</span></div>
+        <div class="impr-row"><span class="idx">28</span><span class="tag ux">UX</span><span class="text">지점 변경 시 시술검색/차트생성 영역 자동 강제 초기화</span><span class="date">09.20</span></div>
+        <div class="impr-row"><span class="idx">29</span><span class="tag ux">UX</span><span class="text">지점명 검색 정확도 개선 — "부산" 검색 시 초성만 같은 "발산점"이 뜨던 문제 해결 (한글 입력 시 초성매치 비활성화)</span><span class="date">09.20</span></div>
+        <div class="impr-row"><span class="idx">30</span><span class="tag func">기능</span><span class="text">홈페이지 시술 순서 보존 기능 추가 (섹션별 order 값 저장, DB 마이그레이션)</span><span class="date">09.20</span></div>
+        <div class="impr-row"><span class="idx">31</span><span class="tag func">기능</span><span class="text">"옵션N)" 추가상품은 항상 후순위로</span><span class="date">09.20</span></div>
+        <div class="impr-row"><span class="idx">32</span><span class="tag ux">UX</span><span class="text">검색어가 섹션 이름 자체인 경우 그 섹션 내 홈페이지 순서 그대로 정렬 ("덴서티", "리쥬란힐러")</span><span class="date">09.20</span></div>
+        <div class="impr-row"><span class="idx">33</span><span class="tag func">기능</span><span class="text">부스터 시술 조합 계산기능 추가</span><span class="date">09.20</span></div>
+        <div class="impr-row"><span class="idx">34</span><span class="tag ux">UX</span><span class="text">전지점 공통 설정 메뉴의 구분성 강화</span><span class="date">09.21</span></div>
+        <div class="impr-row"><span class="idx">35</span><span class="tag func">기능</span><span class="text">시술 수량 변경 시 차팅 후보군 제시 기능 추가</span><span class="date">09.28</span></div>
+        <div class="impr-row"><span class="idx">36</span><span class="tag func">기능</span><span class="text">리프팅 버튼으로 울쎼라 온다처럼 샷수 줄수 입력시 최저가 최고가 조합 선택 기능 추가</span><span class="date">10.01</span></div>
+        <div class="impr-row"><span class="idx">37</span><span class="tag func">기능</span><span class="text">미분류시술 최소화를 위한 시술명기반 2차 재분류 기능 추가</span><span class="date">10.04</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 운영비용 -->
+  <section class="section" id="t4">
+    <div class="section-head">
+      <div class="section-title-row">
+        <h2 class="section-title">운영 비용 & 백엔드 구성</h2>
+        <span class="badge red">정식 운영: 월 ₩33,000</span>
+      </div>
+      <p class="section-desc">테스트 단계(동시접속 50-100명)는 무료 요금제로 진행 | 정식 운영(동시접속 200명 이상 고려 시)은 데이터베이스 계정 업그레이드 필수(월 $25, API 비용·AI 사용료 추가 없음)</p>
+    </div>
+
+    <div class="cost-callout">
+      <span class="cost-num">테스트 0원 정식 : $25/월</span>
+      <p class="cost-cap">테스트(FREE, 50-100명 동시접속)는 무료<br>정식(200명 이상 고려 시) 데이터베이스 계정 업그레이드 필수 ($25/월, API 금액 없음)</p>
+    </div>
+
+    <p class="subhead">백엔드 구성</p>
+    <div class="item-list">
+      <div class="item compact"><div class="num-chip">1</div><div><p class="item-title">화면·서버 (Vercel)</p><p class="item-desc">직원이 접속하는 화면을 띄우고 요청을 처리하는 부분 — 무료 요금제로 운영 중</p></div></div>
+      <div class="item compact"><div class="num-chip">2</div><div><p class="item-title">저장소 (Supabase)</p><p class="item-desc">58개 지점의 시술·가격·규칙·별칭·지점별 설정 데이터를 저장하는 데이터베이스 | 테스트 단계는 FREE 플랜 사용 중 (안정적) | 정식 운영 시 Pro 플랜 업그레이드 필수 (동시 연결 200+, 8GB 용량, 백업 강화)</p></div></div>
+      <div class="item compact"><div class="num-chip">3</div><div><p class="item-title">자동연동 (자체 로직)</p><p class="item-desc">매일 아침 블리비 홈페이지 최신 가격을 직접 가져오는 기능 — 외부 유료 API 없이 자체 개발</p></div></div>
+    </div>
+
+    <p class="subhead">비용 절감 포인트</p>
+    <div class="beige-block">
+      <div class="item-list">
+        <div class="item compact"><div class="num-chip">1</div><div><p class="item-title">서버 비용 0원</p><p class="item-desc">Vercel 무료 요금제로 운영 중이며, 실사용 트래픽은 무료 한도의 일부 수준</p></div></div>
+        <div class="item compact"><div class="num-chip">2</div><div><p class="item-title">데이터베이스 비용 (테스트 0원 / 정식 월 ₩33,000)</p><p class="item-desc">테스트: 전체 지점 데이터를 다 넣어도 텍스트 데이터라 무료 사용량의 10% 수준 | 정식: Pro 플랜 필수 ($25/월) — 동시 연결 50명→200+로 증대, 안정성 강화</p></div></div>
+        <div class="item compact"><div class="num-chip">3</div><div><p class="item-title">AI 사용료 0원</p><p class="item-desc">ChatGPT 같은 유료 AI를 쓰지 않고 자체 알고리즘으로 시술명 검색·정리 구현 — 사용량이 늘어도 추가 과금 없음</p></div></div>
+        <div class="item compact"><div class="num-chip">4</div><div><p class="item-title">지점 추가 비용 0원</p><p class="item-desc">신규 지점이 생겨도 서버·DB 증설 없이 지점 목록에 이름만 추가하면 즉시 전 지점 적용</p></div></div>
+        <div class="item compact"><div class="num-chip">5</div><div><p class="item-title">실측으로 검증 완료</p><p class="item-desc">테스트 단계(10개 지점, 40명 동시)로 무료 한도 안에서 정상 작동 확인 | 정식 운영(60개 지점, 180명 동시)은 Pro 플랜으로 안정성 보증 | 자동연동 실행 기록 및 상세설정 탭 DB 부하 테스트 완료</p></div></div>
+      </div>
+    </div>
+
+    <div class="emphasis-block">
+      <p class="emphasis-title">외주 개발 의뢰와 비교</p>
+      <div class="compare-card">
+        <span class="compare-label">외주 개발 의뢰</span>
+        <div class="row"><span class="k">개발 기간</span><span class="v">최소 1개월 이상 (요구사항 협의·개발·테스트)</span></div>
+        <div class="row"><span class="k">초기 개발비 인건비</span><span class="v">최소 800만원 이상의 견적 발생 가능</span></div>
+        <div class="row"><span class="k">58개 지점 확장</span><span class="v">지점별 커스터마이징 추가 견적 발생</span></div>
+        <div class="row"><span class="k">월 운영비</span><span class="v">서버·유지보수 별도 계약 필요한 경우 많음</span></div>
+        <div class="row"><span class="k">현업 이해도</span><span class="v">실사용 워크플로우를 모르므로 설명 및 소통 필요</span></div>
+        <div class="row"><span class="k">향후 유지보수</span><span class="v">수정·추가 요청마다 별도 견적·계약 필요</span></div>
+      </div>
+      <div class="compare-card">
+        <span class="compare-label hi">지금처럼 내부 자체 개발</span>
+        <div class="row hilite"><span class="k">개발 기간</span><span class="v">이미 완료, 이후에도 지속 개선 중</span></div>
+        <div class="row hilite"><span class="k">초기 개발비 인건비</span><span class="v"> 가은빈 직접 개발(클로드 코드 구독료)</span></div>
+        <div class="row hilite"><span class="k">58개 지점 확장</span><span class="v">지점 목록에 이름만 추가, 추가비용 없음</span></div>
+        <div class="row hilite"><span class="k">월 운영비</span><span class="v">0원 (무료 요금제)</span></div>
+        <div class="row hilite"><span class="k">현업 이해도</span><span class="v">현장 업무를 100% 이해하는 실무자의 개발과 기획의도 바로 반영</span></div>
+        <div class="row hilite"><span class="k">향후 유지보수</span><span class="v">현재 담당자(홍대점 가은빈)가 계속 맡으면 추가 비용 없이 지속 유지보수 가능</span></div>
+      </div>
+      <p class="footnote">※ 외주 견적은 업계 개발자 참고 견적 기준이며, 실제 계약 시 범위·업체에 따라 달라질 수 있음</p>
+    </div>
+
+    <div class="emphasis-block">
+      <p class="emphasis-title">DB 플랜 업그레이드 (정식 운영 필수)</p>
+      <ul class="emphasis-list">
+        <li>테스트 단계(FREE): 동시접속 50-100명 안전 → 현재 1-2개 지점 테스트 진행</li>
+        <li>정식 운영(Pro): 동시접속 200명 이상 필요 → Supabase Pro 업그레이드 필수 ($25/월)</li>
+        <li>단계별 확대 → Phase 1(10개 지점, 2주) → Phase 2(Pro 업그레이드, 3주차) → Phase 3(전사 오픈, 4주차~)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. 기대 효과 -->
+  <section class="section" id="t5">
+    <div class="section-head">
+      <div class="section-title-row">
+        <h2 class="section-title">기대 효과</h2>
+        <span class="badge red">전지점 실장 업무 개선</span>
+      </div>
+    </div>
+
+    <div class="compare-table">
+      <div class="ct-row ct-head">
+        <div class="ct-cell label"></div>
+        <div class="ct-cell before">지금까지</div>
+        <div class="ct-cell after">도입 후</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell label">차트 작성</div>
+        <div class="ct-cell before">상담 내용을 한 줄씩 직접 입력</div>
+        <div class="ct-cell after">시술 선택만 하면 차트 초안 자동 완성</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell label">수가 반영</div>
+        <div class="ct-cell before">바뀔 때마다 새로 외우고 익숙해지는 시간 필요</div>
+        <div class="ct-cell after">홈페이지 최신 가격 자동 반영, 따로 외울 필요 없음</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell label">금액 계산</div>
+        <div class="ct-cell before">손으로 직접 계산 — 실수 발생 가능성 높음</div>
+        <div class="ct-cell after">회원권·양도·할인까지 자동 계산, 실수 원천 차단</div>
+      </div>
+      <div class="ct-row">
+        <div class="ct-cell label">상담 몰릴 때</div>
+        <div class="ct-cell before">검토 시간 부족해 오류 위험 더 커짐</div>
+        <div class="ct-cell after">속도 저하 없이 정확하게 처리</div>
+      </div>
+    </div>
+
+    <div class="item-list">
+      <div class="item"><div class="num-chip">편의</div><div><p class="item-title">업무 편의성 향상</p><p class="item-desc">클릭 몇 번으로 차트가 완성돼, 실장님이 일일이 타이핑하고 확인하던 과정이 크게 줄어듭니다</p></div></div>
+      <div class="item"><div class="num-chip">생산</div><div><p class="item-title">생산성 향상</p><p class="item-desc">차트 작성 시간이 단축되는 만큼, 같은 시간에 더 많은 상담을 여유 있게 소화할 수 있습니다</p></div></div>
+      <div class="item"><div class="num-chip">정확</div><div><p class="item-title">정확성 향상</p><p class="item-desc">금액 계산과 수가 반영을 시스템이 대신하기 때문에, 사람이 직접 계산해서 생기는 오류가 크게 줄어듭니다</p></div></div>
+      <div class="item"><div class="num-chip">효율</div><div><p class="item-title">전지점 업무 효율 향상</p><p class="item-desc">58개 지점이 같은 기준으로 자동 연동되어, 지점마다 따로 익히고 관리하던 비효율이 사라집니다</p></div></div>
+    </div>
+
+  </section>
+
+  <!-- 6. 요약 -->
+  <section class="section" id="t6">
+    <div class="section-head">
+      <h2 class="section-title">요약</h2>
+    </div>
+    <div class="beige-block">
+      <div class="item-list">
+        <div class="item"><div class="num-chip">1</div><div><p class="item-title">완성형 자동화 도구</p><p class="item-desc">홈페이지 수가 연동을 기본으로 정리규칙·별칭매칭·회원권/양도 계산까지 갖춘 완성형 사이트</p></div></div>
+        <div class="item"><div class="num-chip">2</div><div><p class="item-title">본사 요청 100% 반영</p><p class="item-desc">전지점 데이터·카테고리·미시술 분리·회원권 금액 자동입력·실장이름 유지·생년월일 추가·홈페이지 순서 보존 등 8건을 모두 구현·배포</p></div></div>
+        <div class="item"><div class="num-chip">3</div><div><p class="item-title">자체 기능 및 UI UX개선</p><p class="item-desc">지점 전환 안전장치, 검색 정확도, 양도차트 다중화, 할인 자동계산 등 실사용 편의성을 고려해 기능 개선</p></div></div>
+        <div class="item"><div class="num-chip">4</div><div><p class="item-title">업무 편의성 효율성 생산성 정확성 향상</p><p class="item-desc">수기 차팅·계산의 소요시간과 오류를 줄여, 편의성·생산성·정확성·효율을 함께 끌어올림</p></div></div>
+      </div>
+    </div>
+    <div class="closing">2026년 9월 2일 첫 배포 이후, <span class="hi">총 108차례 사이트 배포</span>하며 계속 개선하고 있습니다</div>
+  </section>
+
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('.section');
+
+  // 클릭 시 부드럽게 스크롤 이동
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById(btn.dataset.target).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // 스크롤 위치에 따라 활성 탭 자동 갱신 (scroll-spy)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+        const activeBtn = document.querySelector('.tab-btn.active');
+        if (activeBtn) activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
