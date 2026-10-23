@@ -32,6 +32,7 @@
   --radius: 12px;
   --max: 640px;
   --nav-h: 96px;
+  --gx: max(16px, calc((100% - var(--max)) / 2 + 16px));
 }
 
 *{box-sizing:border-box;}
@@ -50,9 +51,8 @@ body{
 
 /* ---------- Header ---------- */
 .header{
-  padding: 22px 20px 20px;
+  padding: 22px var(--gx) 20px;
   border-bottom: 1px solid var(--border);
-  max-width: var(--max);
 }
 .header-eyebrow{
   font-size: 12px;
@@ -110,15 +110,14 @@ body{
   border-top: 1px solid var(--border);
 }
 .byline .hero-link-btn{ margin-left: auto; }
-.byline .b-item{ font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+.byline .b-item{ font-size: 14px; color: var(--ink-soft); white-space: nowrap; }
 .byline .b-item strong{ color: var(--ink); font-weight: 600; margin-left: 2px; }
 
 /* ---------- Key highlights (개조식) ---------- */
 .highlights{
-  padding: 20px 16px 22px;
+  padding: 20px var(--gx) 22px;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
-  max-width: var(--max);
 }
 .highlights-title{
   font-size: 17.5px;
@@ -175,6 +174,7 @@ body{
   display: flex;
   align-items: center;
   gap: 6px;
+  padding: 0 var(--gx);
 }
 .site-link{
   flex: 0 0 auto;
@@ -197,7 +197,7 @@ body{
   display: flex;
   gap: 4px;
   overflow-x: auto;
-  padding: 0 14px;
+  padding: 0;
   scrollbar-width: none;
   flex: 1 1 auto;
   min-width: 0;
@@ -224,10 +224,11 @@ body{
 
 /* ---------- Layout ---------- */
 .wrap{
-  max-width: var(--max);
+  width: 100%;
 }
-.section{ padding: 26px 16px 8px; scroll-margin-top: calc(var(--nav-h) - 44px); border-bottom: 1px solid var(--border); }
+.section{ padding: 26px var(--gx) 8px; scroll-margin-top: calc(var(--nav-h) - 44px); border-bottom: 1px solid var(--border); }
 .section:last-child{ border-bottom: none; }
+#t5, #t4, #t6{ background: var(--surface); }
 
 .section-head{ margin-bottom: 14px; }
 .section-title-row{
@@ -893,7 +894,7 @@ body{
         <div class="item"><div class="num-chip">4</div><div><p class="item-title">업무 편의성 효율성 생산성 정확성 향상</p><p class="item-desc">수기 차팅·계산의 소요시간과 오류를 줄여, 편의성·생산성·정확성·효율을 함께 끌어올림</p></div></div>
       </div>
     </div>
-    <div class="closing">2026년 9월 2일 첫 배포 이후, <span class="hi">총 108차례 사이트 배포</span>하며 계속 개선하고 있습니다</div>
+    <div class="closing">2026년 9월 2일 첫 배포 이후, <span class="hi">총 120회 사이트 배포</span>하며 계속 개선하고 있습니다</div>
   </section>
 
 </div>
